@@ -3,7 +3,14 @@
 Automate the process of installing miniconda and deploying to PyPI and Github
 pages.
 
+
 ## TravisCI
+
+The first thing to do is go to your profile page on https://travis-ci.org and
+enable building your repository. New repos can take a while to appear on the
+list.
+
+See the sample `.travis.yml` configuration included in this repository.
 
 ### Getting the scripts
 
@@ -15,11 +22,20 @@ Clone this repository in the `install` or `before_install` steps in
 
 ### Miniconda
 
-Install Miniconda by sourcing the `travis/install-miniconda.sh` script. Must
-use `source` because the script sets the `PATH` environment variable. Include
-this in the `install` or `before_install` steps in `.travis.yml`:
+Install and setup Miniconda by sourcing the `travis/setup-miniconda.sh` script.
+Must use `source` because the script sets the `PATH` environment variable.
+This script will download and install the latest miniconda, configure it to use
+conda-forge, update conda, create a testing environment, and install
+dependencies specified in a requirements file. This last step is optional and
+only happens if you specify the name of a requirements file in the environment
+variable `CONDA_REQUIREMENTS`.
 
-    source continuous-integration/travis/install-miniconda.sh
+Include this in the `install` or `before_install` steps in `.travis.yml`:
+
+    source continuous-integration/travis/setup-miniconda.sh
+
+It's a good idea to run `conda list` to print out a full list of packages
+installed.
 
 
 ### Deploy to Github pages
