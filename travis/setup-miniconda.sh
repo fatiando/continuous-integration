@@ -17,6 +17,9 @@ fi
 CONDA_PREFIX=$HOME/miniconda
 
 # Download and install miniconda
+echo ""
+echo "Downloading Miniconda from $MINICONDA_URL/$MINICONDA_FILE"
+echo "========================================================================"
 wget $MINICONDA_URL/$MINICONDA_FILE -O miniconda.sh
 bash miniconda.sh -b -p $CONDA_PREFIX
 
@@ -30,14 +33,23 @@ conda config --set always_yes yes --set changeps1 no
 conda config --add channels conda-forge
 
 # Update conda to the latest version
-conda update conda --quiet
+echo ""
+echo "Updating conda"
+echo "========================================================================"
+conda update --quiet conda
 
 # Create and activate an environment for testing
+echo ""
+echo "Creating the 'testing' environment with python=$PYTHON"
+echo "========================================================================"
 conda create --quiet --name testing python=$PYTHON pip
 source activate testing
 
 # Install dependencies if a requirements file is specified
 if [ ! -z "$CONDA_REQUIREMENTS" ]; then
+    echo ""
+    echo "Installing requirments from file $CONDA_REQUIREMENTS"
+    echo "========================================================================"
     conda install --quiet --file $CONDA_REQUIREMENTS
 fi
 
