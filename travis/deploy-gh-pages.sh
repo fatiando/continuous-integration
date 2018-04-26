@@ -1,9 +1,10 @@
 #!/bin/bash
 #
-# Push the built HTML pages to the gh-pages branch.
+# Push HTML pages to the gh-pages branch of the current Github repository.
 #
-# Keeps pages for releases in separate folvers. Pages for the master branch are
-# in the 'dev' folder. 'latest' is a link to the last release.
+# Keeps pages built from git tags in separate folders (named after the tag).
+# Pages for the master branch are in the 'dev' folder. 'latest' is a link to
+# the last tag.
 
 # To return a failure if any commands inside fail
 set -e
@@ -11,9 +12,10 @@ set -x
 
 REPO=$TRAVIS_REPO_SLUG
 BRANCH=gh-pages
+CLONE_DIR=deploy
 CLONE_ARGS="--quiet --branch=$BRANCH --single-branch"
 REPO_URL=https://${GH_TOKEN}@github.com/${REPO}.git
-CLONE_DIR=deploy
+HTML_SRC=${TRAVIS_BUILD_DIR}/doc/_build/html
 # Place the HTML is different folders for different versions
 if [[ "${TRAVIS_TAG}" != "" ]]; then
     VERSION=${TRAVIS_TAG}
@@ -23,7 +25,8 @@ fi
 
 echo -e "DEPLOYING HTML TO GITHUB PAGES:"
 echo -e "Target: branch ${BRANCH} of ${REPO}"
-echo -e "HTML dir: ${VERSION}"
+echo -e "HTML source: ${HTML_SRC}"
+echo -e "HTML destination: ${VERSION}"
 
 # Clone the project, using the secret token.
 # Uses /dev/null to avoid leaking decrypted key.
@@ -39,7 +42,7 @@ git config user.name "TravisCI"
 # Delete all the files and replace with our new  set
 echo -e "Remove old files from previous builds"
 rm -rf ${VERSION}
-cp -Rf ${TRAVIS_BUILD_DIR}/doc/_build/html/ ${VERSION}/
+cp -Rf ${HTML_SRC}/ ${VERSION}/
 
 # Need to have this file so that Github doesn't try to run Jekyll
 touch .nojekyll

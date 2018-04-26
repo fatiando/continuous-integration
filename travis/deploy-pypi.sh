@@ -1,6 +1,7 @@
 #!/bin/bash
 #
-# Package and upload to PyPI
+# Package and upload to PyPI using twine. The env variables TWINE_USERNAME and
+# TWINE_PASSWORD must exist with your pypi.org credentials.
 
 # To return a failure if any commands inside fail
 set -e

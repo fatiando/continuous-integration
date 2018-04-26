@@ -1,4 +1,5 @@
 #!/bin/bash
+# Installs Miniconda (Python 3) and set's the PATH.
 
 # To return a failure if any commands inside fail
 set -e
