@@ -12,6 +12,9 @@ list.
 
 See the sample `.travis.yml` configuration included in this repository.
 
+[![TravisCI build status](http://img.shields.io/travis/fatiando/continuous-integration/master.svg?style=flat-square&label=travis)](https://travis-ci.org/fatiando/continuous-integration)
+
+
 ### Getting the scripts
 
 Clone this repository in the `install` or `before_install` steps in
