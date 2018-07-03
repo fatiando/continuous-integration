@@ -1,18 +1,39 @@
 # Scripts for managing Continuous Integration services
 
-Automate the process of installing miniconda and deploying to PyPI and Github
-pages.
+Automate the process of installing miniconda and deploying to PyPI and Github Pages.
+
+
+## AppVeyor
+
+AppVeyor can be used to test the build on Windows (both 32 and 64bit). A very nice
+convenience is that it comes with Miniconda already installed in many flavors, so we
+don't need to download it. The first thing to do is go to your profile page on
+https://www.appveyor.com and enable building your repository.
+
+The configuration is setup in an `.appveyor.yml` file. The
+`appveyor/setup-miniconda.bat` script configures and updates conda, creates a new
+environment, and installs dependencies on it. The dependencies are specified in
+`.appveyor.yml` through a variable `CONDA_REQUIREMENTS` that defines a requirements
+file.
+
+There are no deploy actions specified for AppVeyor. We'll use TravisCI to handle
+deploying the docs to Github Pages and builds to PyPI.
+
+ See the sample `.appveyor.yml` configuration included in this repository.
+
+[![AppVeyor build status](http://img.shields.io/appveyor/ci/fatiando/continuous-integration/master.svg?style=flat-square&label=AppVeyor)](https://ci.appveyor.com/project/fatiando/continuous-integration)
 
 
 ## TravisCI
 
+Travis has the option to run jobs on Linux and OSX.
 The first thing to do is go to your profile page on https://travis-ci.org and
 enable building your repository. New repos can take a while to appear on the
 list.
 
 See the sample `.travis.yml` configuration included in this repository.
 
-[![TravisCI build status](http://img.shields.io/travis/fatiando/continuous-integration/master.svg?style=flat-square&label=travis)](https://travis-ci.org/fatiando/continuous-integration)
+[![TravisCI build status](http://img.shields.io/travis/fatiando/continuous-integration/master.svg?style=flat-square&label=TravisCI)](https://travis-ci.org/fatiando/continuous-integration)
 
 
 ### Getting the scripts
