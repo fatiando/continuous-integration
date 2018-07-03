@@ -47,4 +47,4 @@ install:
 
 test_script:
     # Run the tests inside a tmp folder to make sure we're testing the installed version
-    - ps: mkdir -p tmp; cd tmp; python -c "assert True"
+    - ps: mkdir -p tmp; cd tmp; python -c "import numpy; assert True"
