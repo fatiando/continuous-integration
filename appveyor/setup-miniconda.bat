@@ -20,10 +20,9 @@ conda update --quiet conda
 ECHO Creating the 'testing' environment
 ECHO ===============================================
 conda create --quiet --name testing python="%PYTHON%" pip
-activate testing
 
 ECHO Installing requirements from file
 ECHO ===============================================
-IF DEFINED CONDA_REQUIREMENTS (conda install --quiet --file %CONDA_REQUIREMENTS%) ELSE (ECHO No requirements file set)
+IF DEFINED CONDA_REQUIREMENTS (conda install --quiet --name testing --file %CONDA_REQUIREMENTS%) ELSE (ECHO No requirements file set)
 
 ENDLOCAL
