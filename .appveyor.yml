@@ -32,9 +32,10 @@ init:
 
 install:
     # Get the Fatiando CI scripts
-    - cmd: git clone https://github.com/fatiando/continuous-integration.git
+    #- cmd: git clone https://github.com/fatiando/continuous-integration.git
     # Setup miniconda and install the requirements into a new environment
-    - cmd: continuous-integration\appveyor\setup-miniconda.bat
+    #- cmd: continuous-integration\appveyor\setup-miniconda.bat
+    - cmd: appveyor\setup-miniconda.bat
     # Activate the new environment
     - cmd: activate testing
     # Show installed pkg information for postmortem diagnostic
