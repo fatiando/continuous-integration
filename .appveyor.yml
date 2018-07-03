@@ -9,8 +9,6 @@ branches:
         - master
 
 environment:
-    # The file with the listed requirements to be installed by setup-miniconda.bat
-    - CONDA_REQUIREMENTS: requirements.txt
     matrix:
         # Python 3.5, 32 and 64 bit
         - MINICONDA: C:\Miniconda35
@@ -27,17 +25,24 @@ environment:
           PYTHON: 3.6
 
 init:
+    # Add miniconda to the PATH
     - "set PATH=%MINICONDA%;%MINICONDA%\\Scripts;%MINICONDA%\\Library\\bin;%PATH%"
+    # The file with the listed requirements to be installed by setup-miniconda.bat
+    - set CONDA_REQUIREMENTS=requirements.txt
 
 install:
     # Get the Fatiando CI scripts
     - cmd: git clone https://github.com/fatiando/continuous-integration.git
     # Setup miniconda and install the requirements into a new environment
     - cmd: continuous-integration/appveyor/setup-miniconda.bat
+    # Activate the new environment
+    - cmd: activate testing
+    # Show installed pkg information for postmortem diagnostic
+    - cmd: conda list
     # Make a source package for the project and install it
-    - cmd: python setup.py sdist --formats=zip
-    - ps: ls dist
-    - ps: pip install --no-deps (Get-ChildItem dist\*.zip)
+    #- cmd: python setup.py sdist --formats=zip
+    #- ps: ls dist
+    #- ps: pip install --no-deps (Get-ChildItem dist\*.zip)
 
 
 test_script:
