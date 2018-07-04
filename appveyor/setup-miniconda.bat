@@ -35,6 +35,6 @@ python -m pip install --upgrade pip
 ECHO.
 ECHO Installing requirements from file
 ECHO ===============================================
-IF DEFINED CONDA_REQUIREMENTS (conda install --quiet --file %CONDA_REQUIREMENTS%) ELSE (ECHO No requirements file set)
+IF DEFINED CONDA_REQUIREMENTS (conda install --quiet --channel conda-forge --file %CONDA_REQUIREMENTS%) ELSE (ECHO No requirements file set)
 
 ENDLOCAL
