@@ -24,18 +24,17 @@ ECHO.
 ECHO Creating the 'testing' environment
 ECHO ===============================================
 conda create --quiet --name testing python="%PYTHON%" pip
+REM Need to use call in batch scripts: https://github.com/conda/conda/issues/794
+call activate testing
 
 ECHO.
 ECHO Updating pip
 ECHO ===============================================
-REM Need to use call in batch scripts: https://github.com/conda/conda/issues/794
-call activate testing
 python -m pip install --upgrade pip
-call deactivate
 
 ECHO.
 ECHO Installing requirements from file
 ECHO ===============================================
-IF DEFINED CONDA_REQUIREMENTS (conda install --quiet --name testing --file %CONDA_REQUIREMENTS%) ELSE (ECHO No requirements file set)
+IF DEFINED CONDA_REQUIREMENTS (conda install --quiet --file %CONDA_REQUIREMENTS%) ELSE (ECHO No requirements file set)
 
 ENDLOCAL
