@@ -7,20 +7,32 @@ VERIFY OTHER 2>nul
 SETLOCAL ENABLEEXTENSIONS
 IF ERRORLEVEL 1 ECHO Unable to enable extensions
 
+ECHO
+ECHO Configuring conda
+ECHO ===============================================
 REM Don't change the prompt or request user input
 conda config --set always_yes yes --set changeps1 no
-
 REM Add conda-forge to the top of the channel list
 conda config --add channels conda-forge
 
+ECHO
 ECHO Updating conda
 ECHO ===============================================
 conda update --quiet conda
 
+ECHO
 ECHO Creating the 'testing' environment
 ECHO ===============================================
 conda create --quiet --name testing python="%PYTHON%" pip
 
+ECHO
+ECHO Updating pip
+ECHO ===============================================
+activate testing
+python -m pip install --upgrade pip
+deactivate
+
+ECHO
 ECHO Installing requirements from file
 ECHO ===============================================
 IF DEFINED CONDA_REQUIREMENTS (conda install --quiet --name testing --file %CONDA_REQUIREMENTS%) ELSE (ECHO No requirements file set)

@@ -35,11 +35,10 @@ install:
     - cmd: git clone https://github.com/fatiando/continuous-integration.git
     # Setup miniconda and install the requirements into a new environment
     #- cmd: continuous-integration\appveyor\setup-miniconda.bat
+    # We'll use the current script in this repo but you should use the above line
     - cmd: appveyor\setup-miniconda.bat
     # Activate the new environment
     - cmd: activate testing
-    # Update pip in the testing environment
-    - cmd: python -m pip install --upgrade pip
     # Show installed pkg information for postmortem diagnostic
     - cmd: conda list
     # Make a source package for the project and install it
