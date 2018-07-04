@@ -28,9 +28,10 @@ conda create --quiet --name testing python="%PYTHON%" pip
 ECHO.
 ECHO Updating pip
 ECHO ===============================================
-activate testing
+REM Need to use call in batch scripts: https://github.com/conda/conda/issues/794
+call activate testing
 python -m pip install --upgrade pip
-deactivate
+call deactivate
 
 ECHO.
 ECHO Installing requirements from file
