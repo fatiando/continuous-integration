@@ -90,6 +90,16 @@ Commit this to `gh-pages`:
     git add index.html
     git commit -m "Setup index.html to redirect to 'latest'"
 
+If you want to initially point `latest` to the `dev` build, for example if you haven't
+made a release yet):
+
+    mkdir dev
+    ln -sf dev latest
+    git add dev latest
+    git commit -m "Link 'latest' to 'dev' until we make a release"
+
+After that, the first release will update `latest` to link to it instead.
+
 Make sure to push your changes and then go back to master.
 
 #### Getting a Github token
