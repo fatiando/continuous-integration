@@ -46,12 +46,24 @@ conda create --quiet --name testing python=$PYTHON pip
 source activate testing
 
 # Install dependencies if a requirements file is specified
-if [ ! -z "$CONDA_REQUIREMENTS" ]; then
+if [ ! -z "$REQUIREMENTS" ]; then
     echo ""
-    echo "Installing requirments from file $CONDA_REQUIREMENTS"
+    echo "Installing requirments from file $REQUIREMENTS"
     echo "========================================================================"
-    conda install --quiet --file $CONDA_REQUIREMENTS
+    conda install --quiet --file $REQUIREMENTS python=$PYTHON
 fi
+if [ ! -z "$REQUIREMENTS_DEV" ]; then
+    echo ""
+    echo "Installing requirments from file $REQUIREMENTS_DEV"
+    echo "========================================================================"
+    conda install --quiet --file $REQUIREMENTS_DEV python=$PYTHON
+fi
+
+echo ""
+echo "Check that Python really is $PYTHON"
+echo "========================================================================"
+# Make sure that this is the correct Python version. You probably don't need this.
+python -c "import sys; assert sys.version_info[:2] == tuple(int(i) for i in '$PYTHON'.split('.'))"
 
 # Workaround for https://github.com/travis-ci/travis-ci/issues/6522
 # Turn off exit on failure.

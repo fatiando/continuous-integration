@@ -28,7 +28,8 @@ init:
     # Add miniconda to the PATH
     - "set PATH=%MINICONDA%;%MINICONDA%\\Scripts;%MINICONDA%\\Library\\bin;%PATH%"
     # The file with the listed requirements to be installed by setup-miniconda.bat
-    - set CONDA_REQUIREMENTS=requirements.txt
+    - set REQUIREMENTS=requirements.txt
+    - set REQUIREMENTS_DEV=requirements-dev.txt
 
 install:
     # Get the Fatiando CI scripts
