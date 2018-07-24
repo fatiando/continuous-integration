@@ -33,13 +33,13 @@ ECHO ===============================================
 python -m pip install --upgrade pip
 
 ECHO.
-ECHO Installing requirements from file %REQUIREMENTS%
+ECHO Installing requirements from file %CONDA_REQUIREMENTS%
 ECHO ===============================================
-IF DEFINED REQUIREMENTS (conda install --quiet --channel conda-forge --file %REQUIREMENTS% python="%PYTHON%") ELSE (ECHO No requirements file set)
+IF DEFINED CONDA_REQUIREMENTS (conda install --quiet --channel conda-forge --file %CONDA_REQUIREMENTS% python="%PYTHON%") ELSE (ECHO No requirements file set)
 ECHO.
-ECHO Installing requirements from file %REQUIREMENTS_DEV%
+ECHO Installing requirements from file %CONDA_REQUIREMENTS_DEV%
 ECHO ===============================================
-IF DEFINED REQUIREMENTS_DEV (conda install --quiet --channel conda-forge --file %REQUIREMENTS_DEV% python="%PYTHON%") ELSE (ECHO No requirements file set)
+IF DEFINED CONDA_REQUIREMENTS_DEV (conda install --quiet --channel conda-forge --file %CONDA_REQUIREMENTS_DEV% python="%PYTHON%") ELSE (ECHO No requirements file set)
 
 ECHO.
 ECHO Check that Python really is %PYTHON%
