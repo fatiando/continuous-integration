@@ -50,13 +50,13 @@ if [ ! -z "$REQUIREMENTS" ]; then
     echo ""
     echo "Installing requirments from file $REQUIREMENTS"
     echo "========================================================================"
-    conda install --quiet --file $REQUIREMENTS
+    conda install --quiet --file $REQUIREMENTS python=$PYTHON
 fi
 if [ ! -z "$REQUIREMENTS_DEV" ]; then
     echo ""
     echo "Installing requirments from file $REQUIREMENTS_DEV"
     echo "========================================================================"
-    conda install --quiet --file $REQUIREMENTS_DEV
+    conda install --quiet --file $REQUIREMENTS_DEV python=$PYTHON
 fi
 
 echo ""
