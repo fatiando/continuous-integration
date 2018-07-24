@@ -33,12 +33,18 @@ ECHO ===============================================
 python -m pip install --upgrade pip
 
 ECHO.
-ECHO Installing requirements from file
+ECHO Installing requirements from file %REQUIREMENTS%
 ECHO ===============================================
 IF DEFINED REQUIREMENTS (conda install --quiet --channel conda-forge --file %REQUIREMENTS%) ELSE (ECHO No requirements file set)
+ECHO.
+ECHO Installing requirements from file %REQUIREMENTS_DEV%
+ECHO ===============================================
 IF DEFINED REQUIREMENTS_DEV (conda install --quiet --channel conda-forge --file %REQUIREMENTS_DEV%) ELSE (ECHO No requirements file set)
 
-REM Check if the Python version is still correct
+ECHO.
+ECHO Check that Python really is %PYTHON%
+ECHO ===============================================
+REM Check if the Python version is still correct after installing all dependencies
 python -c "import sys; assert sys.version_info[:2] == tuple(int(i) for i in '%PYTHON%'.split('.'))"
 
 ENDLOCAL

@@ -59,6 +59,9 @@ if [ ! -z "$REQUIREMENTS_DEV" ]; then
     conda install --quiet --file $REQUIREMENTS_DEV
 fi
 
+echo ""
+echo "Check that Python really is $PYTHON"
+echo "========================================================================"
 # Make sure that this is the correct Python version. You probably don't need this.
 python -c "import sys; assert sys.version_info[:2] == tuple(int(i) for i in '$PYTHON'.split('.'))"
 

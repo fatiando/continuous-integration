@@ -1,2 +1,2 @@
-# A sample requirements file for conda
-numpy
+# A sample requirements file for conda development dependencies
+black
