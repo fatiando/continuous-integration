@@ -25,8 +25,8 @@ env:
         #- TWINE_USERNAME=your-user-name
         #
         # The file with the listed requirements to be installed by conda
-        - REQUIREMENTS=requirements.txt
-        - REQUIREMENTS_DEV=requirements-dev.txt
+        - CONDA_REQUIREMENTS=requirements.txt
+        - CONDA_REQUIREMENTS_DEV=requirements-dev.txt
         #
         # These variables control which actions are performed in a build
         - COVERAGE=false
@@ -51,8 +51,8 @@ matrix:
           env:
               - PYTHON=3.5
               # Test to see if the install step is skipped if this is empty
-              - REQUIREMENTS=""
-              - REQUIREMENTS_DEV=""
+              - CONDA_REQUIREMENTS=""
+              - CONDA_REQUIREMENTS_DEV=""
         - os: osx
           env:
               - PYTHON=3.6

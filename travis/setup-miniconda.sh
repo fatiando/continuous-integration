@@ -46,17 +46,17 @@ conda create --quiet --name testing python=$PYTHON pip
 source activate testing
 
 # Install dependencies if a requirements file is specified
-if [ ! -z "$REQUIREMENTS" ]; then
+if [ ! -z "$CONDA_REQUIREMENTS" ]; then
     echo ""
-    echo "Installing requirments from file $REQUIREMENTS"
+    echo "Installing requirments from file $CONDA_REQUIREMENTS"
     echo "========================================================================"
-    conda install --quiet --file $REQUIREMENTS python=$PYTHON
+    conda install --quiet --file $CONDA_REQUIREMENTS python=$PYTHON
 fi
-if [ ! -z "$REQUIREMENTS_DEV" ]; then
+if [ ! -z "$CONDA_REQUIREMENTS_DEV" ]; then
     echo ""
-    echo "Installing requirments from file $REQUIREMENTS_DEV"
+    echo "Installing requirments from file $CONDA_REQUIREMENTS_DEV"
     echo "========================================================================"
-    conda install --quiet --file $REQUIREMENTS_DEV python=$PYTHON
+    conda install --quiet --file $CONDA_REQUIREMENTS_DEV python=$PYTHON
 fi
 
 echo ""
