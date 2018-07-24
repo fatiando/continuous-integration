@@ -65,7 +65,9 @@ before_install:
     - git clone https://github.com/fatiando/continuous-integration.git
     # Download and install miniconda and setup dependencies
     # Need to source the script to set the PATH variable globaly
-    - source continuous-integration/travis/setup-miniconda.sh
+    #- source continuous-integration/travis/setup-miniconda.sh
+    # We'll use the local version but you should use the line above
+    - source travis/setup-miniconda.sh
     # Show installed pkg information for postmortem diagnostic
     - conda list
 
