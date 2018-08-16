@@ -35,11 +35,9 @@ conda config --set always_yes yes --set changeps1 no
 # Add conda-forge to the top of the channel list
 conda config --prepend channels conda-forge
 conda config --remove channels defaults
-# Add any extra channels that may be required
-if [[ ! -z $CONDA_EXTRA_CHANNELS ]]; then
-    for channel in $CONDA_EXTRA_CHANNELS; do
-        conda config --append channels $channel
-    done
+# Add an extra channel that may be required
+if [[ ! -z $CONDA_EXTRA_CHANNEL ]]; then
+    conda config --append channels $CONDA_EXTRA_CHANNEL
 fi
 
 # Display all configuration options for diagnosis

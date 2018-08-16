@@ -13,12 +13,11 @@ ECHO ===============================================
 REM Don't change the prompt or request user input
 conda config --set always_yes yes --set changeps1 no
 
-REM Add any extra channels that may be required
-set channels=conda-forge
-IF DEFINED CONDA_EXTRA_CHANNELS (FOR %%CHANNEL IN ('%CONDA_EXTRA_CHANNELS%') DO conda config --append channels %%CHANNEL) ELSE (ECHO Not setting extra channels)
 REM Add conda-forge to the top of the channel list
 conda config --prepend channels conda-forge
 conda config --remove channels defaults
+REM Add an extra channel that may be required
+IF DEFINED CONDA_EXTRA_CHANNEL (conda config --append channels %CONDA_EXTRA_CHANNEL%) ELSE (ECHO Not setting extra channels)
 
 REM Display all configuration options for diagnosis
 conda config --show
