@@ -17,7 +17,7 @@ REM Add conda-forge to the top of the channel list
 conda config --prepend channels conda-forge
 conda config --remove channels defaults
 REM Add any extra channels that may be required
-IF DEFINED CONDA_EXTRA_CHANNELS (FOR %%CHANNEL IN (%CONDA_EXTRA_CHANNELS%) DO conda config --append channels %%CHANNEL) ELSE (ECHO Not setting extra channels)
+IF DEFINED CONDA_EXTRA_CHANNELS (FOR %CHANNEL IN (%CONDA_EXTRA_CHANNELS%) DO conda config --append channels %CHANNEL) ELSE (ECHO Not setting extra channels)
 
 REM Display all configuration options for diagnosis
 conda config --show
