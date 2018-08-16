@@ -40,6 +40,7 @@ matrix:
         - os: linux
           env:
               - PYTHON=3.5
+              - CONDA_EXTRA_CHANNELS=conda-forge/label/dev
         - os: linux
           env:
               - PYTHON=3.6
