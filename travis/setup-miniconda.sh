@@ -26,12 +26,22 @@ bash miniconda.sh -b -p $CONDA_PREFIX
 # Add it to the path
 export PATH="$CONDA_PREFIX/bin:$PATH"
 
+echo ""
+echo "Configuring conda"
+echo "========================================================================"
 # Don't change the prompt or request user input
 conda config --set always_yes yes --set changeps1 no
 
 # Add conda-forge to the top of the channel list
 conda config --prepend channels conda-forge
 conda config --remove channels defaults
+# Add an extra channel that may be required
+if [[ ! -z $CONDA_EXTRA_CHANNEL ]]; then
+    conda config --append channels $CONDA_EXTRA_CHANNEL
+fi
+
+# Display all configuration options for diagnosis
+conda config --show
 
 # Update conda to the latest version
 echo ""

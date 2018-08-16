@@ -1,17 +1,6 @@
 # A sample requirements file for conda development dependencies
-dask
-pyproj
 matplotlib
-cartopy
-jupyter
 pytest
-pytest-cov
-pytest-mpl
-coverage
 pylint
 sphinx
-sphinx_rtd_theme
-sphinx-gallery
-nbsphinx
 numpydoc
-twine

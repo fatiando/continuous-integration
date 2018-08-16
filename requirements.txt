@@ -1,6 +1,3 @@
 # A sample requirements file for conda
 numpy
-scipy
 pandas
-xarray
-scikit-learn
