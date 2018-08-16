@@ -26,6 +26,9 @@ bash miniconda.sh -b -p $CONDA_PREFIX
 # Add it to the path
 export PATH="$CONDA_PREFIX/bin:$PATH"
 
+echo ""
+echo "Configuring conda"
+echo "========================================================================"
 # Don't change the prompt or request user input
 conda config --set always_yes yes --set changeps1 no
 
@@ -39,6 +42,8 @@ if [[ ! -z $CONDA_EXTRA_CHANNELS ]]; then
     done
 fi
 
+# Display all configuration options for diagnosis
+conda config --show
 
 # Update conda to the latest version
 echo ""
