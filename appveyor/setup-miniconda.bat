@@ -13,7 +13,8 @@ ECHO ===============================================
 REM Don't change the prompt or request user input
 conda config --set always_yes yes --set changeps1 no
 REM Add conda-forge to the top of the channel list
-conda config --add channels conda-forge
+conda config --prepend channels conda-forge
+conda config --remove channels defaults
 
 ECHO.
 ECHO Updating conda

@@ -30,7 +30,8 @@ export PATH="$CONDA_PREFIX/bin:$PATH"
 conda config --set always_yes yes --set changeps1 no
 
 # Add conda-forge to the top of the channel list
-conda config --add channels conda-forge
+conda config --prepend channels conda-forge
+conda config --remove channels defaults
 
 # Update conda to the latest version
 echo ""
