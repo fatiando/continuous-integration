@@ -53,8 +53,12 @@ IF DEFINED CONDA_REQUIREMENTS_DEV (
 IF EXIST "%requirements_file%" (
     ECHO Installing collected dependencies:
     TYPE %requirements_file%
-    ECHO %CONDA_INSTALL_EXTRA%
+    IF DEFINED CONDA_REQUIREMENTS_DEV (
+        ECHO %CONDA_INSTALL_EXTRA%
+    )
     conda install --quiet --file %requirements_file% python=%PYTHON% %CONDA_INSTALL_EXTRA%
+) ELSE (
+    ECHO No requirements files defined.
 )
 
 REM Check if the Python version is still correct after installing all dependencies

@@ -77,6 +77,8 @@ if [ -f $requirements_file ]; then
     cat $requirements_file
     echo $CONDA_INSTALL_EXTRA
     conda install --quiet --file $requirements_file python=$PYTHON $CONDA_INSTALL_EXTRA
+else
+    echo "No requirements files defined."
 fi
 
 # Make sure that this is the correct Python version. Sometimes conda will try to upgrade
