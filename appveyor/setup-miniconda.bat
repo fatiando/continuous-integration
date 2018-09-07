@@ -17,7 +17,11 @@ REM Add conda-forge to the top of the channel list
 conda config --prepend channels conda-forge
 conda config --remove channels defaults
 REM Add an extra channel that may be required
-IF DEFINED CONDA_EXTRA_CHANNEL (conda config --append channels %CONDA_EXTRA_CHANNEL%) ELSE (ECHO Not setting extra channels)
+IF DEFINED CONDA_EXTRA_CHANNEL (
+    conda config --append channels %CONDA_EXTRA_CHANNEL%
+) ELSE (
+    ECHO Not setting extra channels
+)
 
 REM Display all configuration options for diagnosis
 conda config --show
@@ -28,30 +32,34 @@ ECHO ===============================================
 conda update --quiet conda
 
 ECHO/
-ECHO Creating the 'testing' environment
+ECHO Creating the 'testing' environment with python=%PYTHON%
 ECHO ===============================================
 conda create --quiet --name testing python="%PYTHON%" pip
 REM Need to use call in batch scripts: https://github.com/conda/conda/issues/794
 call activate testing
 
 ECHO/
-ECHO Updating pip
+ECHO Installing dependencies
 ECHO ===============================================
-python -m pip install --upgrade pip
+SET requirements_file=full-conda-requirements.txt
+IF DEFINED CONDA_REQUIREMENTS (
+    ECHO Capturing dependencies from %CONDA_REQUIREMENTS%
+    TYPE %CONDA_REQUIREMENTS% >> %requirements_file%
+)
+IF DEFINED CONDA_REQUIREMENTS_DEV (
+    ECHO Capturing dependencies from %CONDA_REQUIREMENTS_DEV%
+    TYPE %CONDA_REQUIREMENTS_DEV% >> %requirements_file%
+)
+IF EXIST "%requirements_file%" (
+    ECHO Installing collected dependencies:
+    TYPE %requirements_file%
+    ECHO %CONDA_INSTALL_EXTRA%
+    conda install --quiet --file %requirements_file% python=%PYTHON% %CONDA_INSTALL_EXTRA%
+)
 
-ECHO/
-ECHO Installing requirements from file %CONDA_REQUIREMENTS%
-ECHO ===============================================
-IF DEFINED CONDA_REQUIREMENTS (conda install --quiet --channel conda-forge --file %CONDA_REQUIREMENTS% python="%PYTHON%") ELSE (ECHO No requirements file set)
-ECHO/
-ECHO Installing requirements from file %CONDA_REQUIREMENTS_DEV%
-ECHO ===============================================
-IF DEFINED CONDA_REQUIREMENTS_DEV (conda install --quiet --channel conda-forge --file %CONDA_REQUIREMENTS_DEV% python="%PYTHON%") ELSE (ECHO No requirements file set)
-
+REM Check if the Python version is still correct after installing all dependencies
 ECHO/
 ECHO Check that Python really is %PYTHON%
-ECHO ===============================================
-REM Check if the Python version is still correct after installing all dependencies
 python -c "import sys; assert sys.version_info[:2] == tuple(int(i) for i in '%PYTHON%'.split('.'))"
 
 ENDLOCAL

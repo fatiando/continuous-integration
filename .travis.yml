@@ -24,7 +24,7 @@ env:
         #- secure: "JUMBLE OF CHARACTERS"
         #- TWINE_USERNAME=your-user-name
         #
-        # The file with the listed requirements to be installed by conda
+        # These files list the requirements to be installed by conda
         - CONDA_REQUIREMENTS=requirements.txt
         - CONDA_REQUIREMENTS_DEV=requirements-dev.txt
         #
@@ -48,6 +48,8 @@ matrix:
               - BUILD_DOCS=true
               - DEPLOY_DOCS=true
               - DEPLOY_PYPI=true
+              # List extra dependencies that need to be installed in this build
+              - CONDA_INSTALL_EXTRA="black flake8"
         - os: osx
           env:
               - PYTHON=3.5

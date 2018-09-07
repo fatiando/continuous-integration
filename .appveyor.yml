@@ -12,10 +12,12 @@ environment:
     matrix:
         - MINICONDA: C:\Miniconda36-x64
           PYTHON: 3.6
-          CONDA_EXTRA_CHANNEL: conda-forge/label/dev
+          CONDA_INSTALL_EXTRA: black flake8
 
         - MINICONDA: C:\Miniconda35-x64
           PYTHON: 3.5
+          CONDA_EXTRA_CHANNEL: conda-forge/label/dev
+
 
 init:
     # Add miniconda to the PATH
