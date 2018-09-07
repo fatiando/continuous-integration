@@ -6,25 +6,25 @@
 # To return a failure if any commands inside fail
 set -e
 
-MINICONDA_URL="http://repo.continuum.io/miniconda"
+miniconda_url="http://repo.continuum.io/miniconda"
 
 if [ "$TRAVIS_OS_NAME" == "osx" ]; then
-    MINICONDA_FILE=Miniconda3-latest-MacOSX-x86_64.sh
+    miniconda_file=Miniconda3-latest-MacOSX-x86_64.sh
 else
-    MINICONDA_FILE=Miniconda3-latest-Linux-x86_64.sh
+    miniconda_file=Miniconda3-latest-Linux-x86_64.sh
 fi
 
-CONDA_PREFIX=$HOME/miniconda
+conda_prefix=$HOME/miniconda
 
 # Download and install miniconda
 echo ""
-echo "Downloading Miniconda from $MINICONDA_URL/$MINICONDA_FILE"
+echo "Downloading Miniconda from $miniconda_url/$miniconda_file"
 echo "========================================================================"
-wget $MINICONDA_URL/$MINICONDA_FILE -O miniconda.sh
-bash miniconda.sh -b -p $CONDA_PREFIX
+wget $miniconda_url/$miniconda_file -O miniconda.sh
+bash miniconda.sh -b -p $conda_prefix
 
 # Add it to the path
-export PATH="$CONDA_PREFIX/bin:$PATH"
+export PATH="$conda_prefix/bin:$PATH"
 
 echo ""
 echo "Configuring conda"
@@ -60,7 +60,7 @@ source activate testing
 echo ""
 echo "Installing dependencies"
 echo "========================================================================"
-requirements_file = "full-conda-requirements.txt"
+requirements_file=full-conda-requirements.txt
 if [ ! -z "$CONDA_REQUIREMENTS" ]; then
     echo "Capturing dependencies from $CONDA_REQUIREMENTS"
     cat $CONDA_REQUIREMENTS >> $requirements_file
