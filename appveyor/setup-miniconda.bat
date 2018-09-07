@@ -53,7 +53,7 @@ IF DEFINED CONDA_REQUIREMENTS_DEV (
 IF EXIST "%requirements_file%" (
     ECHO Installing collected dependencies:
     TYPE %requirements_file%
-    IF DEFINED CONDA_REQUIREMENTS_DEV (
+    IF DEFINED CONDA_INSTALL_EXTRA (
         ECHO %CONDA_INSTALL_EXTRA%
     )
     conda install --quiet --file %requirements_file% python=%PYTHON% %CONDA_INSTALL_EXTRA%
