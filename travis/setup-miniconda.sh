@@ -6,25 +6,25 @@
 # To return a failure if any commands inside fail
 set -e
 
-MINICONDA_URL="http://repo.continuum.io/miniconda"
+miniconda_url="http://repo.continuum.io/miniconda"
 
 if [ "$TRAVIS_OS_NAME" == "osx" ]; then
-    MINICONDA_FILE=Miniconda3-latest-MacOSX-x86_64.sh
+    miniconda_file=Miniconda3-latest-MacOSX-x86_64.sh
 else
-    MINICONDA_FILE=Miniconda3-latest-Linux-x86_64.sh
+    miniconda_file=Miniconda3-latest-Linux-x86_64.sh
 fi
 
-CONDA_PREFIX=$HOME/miniconda
+conda_prefix=$HOME/miniconda
 
 # Download and install miniconda
 echo ""
-echo "Downloading Miniconda from $MINICONDA_URL/$MINICONDA_FILE"
+echo "Downloading Miniconda from $miniconda_url/$miniconda_file"
 echo "========================================================================"
-wget $MINICONDA_URL/$MINICONDA_FILE -O miniconda.sh
-bash miniconda.sh -b -p $CONDA_PREFIX
+wget $miniconda_url/$miniconda_file -O miniconda.sh
+bash miniconda.sh -b -p $conda_prefix
 
 # Add it to the path
-export PATH="$CONDA_PREFIX/bin:$PATH"
+export PATH="$conda_prefix/bin:$PATH"
 
 echo ""
 echo "Configuring conda"
@@ -56,24 +56,36 @@ echo "========================================================================"
 conda create --quiet --name testing python=$PYTHON pip
 source activate testing
 
-# Install dependencies if a requirements file is specified
+# Install dependencies
+echo ""
+echo "Installing dependencies"
+echo "========================================================================"
+requirements_file=full-conda-requirements.txt
 if [ ! -z "$CONDA_REQUIREMENTS" ]; then
-    echo ""
-    echo "Installing requirments from file $CONDA_REQUIREMENTS"
-    echo "========================================================================"
-    conda install --quiet --file $CONDA_REQUIREMENTS python=$PYTHON
+    echo "Capturing dependencies from $CONDA_REQUIREMENTS"
+    cat $CONDA_REQUIREMENTS >> $requirements_file
 fi
 if [ ! -z "$CONDA_REQUIREMENTS_DEV" ]; then
-    echo ""
-    echo "Installing requirments from file $CONDA_REQUIREMENTS_DEV"
-    echo "========================================================================"
-    conda install --quiet --file $CONDA_REQUIREMENTS_DEV python=$PYTHON
+    echo "Capturing dependencies from $CONDA_REQUIREMENTS_DEV"
+    cat $CONDA_REQUIREMENTS_DEV >> $requirements_file
+fi
+if [ -z "$CONDA_INSTALL_EXTRA" ]; then
+    CONDA_INSTALL_EXTRA=""
+fi
+if [ -f $requirements_file ]; then
+    echo "Installing collected dependencies:"
+    cat $requirements_file
+    echo $CONDA_INSTALL_EXTRA
+    conda install --quiet --file $requirements_file python=$PYTHON $CONDA_INSTALL_EXTRA
+else
+    echo "No requirements files defined."
 fi
 
+# Make sure that this is the correct Python version. Sometimes conda will try to upgrade
+# Python itself if a dependency doesn't support a version. We're enforcing this in the
+# conda install above but it's best to check.
 echo ""
 echo "Check that Python really is $PYTHON"
-echo "========================================================================"
-# Make sure that this is the correct Python version. You probably don't need this.
 python -c "import sys; assert sys.version_info[:2] == tuple(int(i) for i in '$PYTHON'.split('.'))"
 
 # Workaround for https://github.com/travis-ci/travis-ci/issues/6522
