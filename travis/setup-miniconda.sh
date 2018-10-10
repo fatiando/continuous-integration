@@ -69,16 +69,16 @@ if [ ! -z "$CONDA_REQUIREMENTS_DEV" ]; then
     echo "Capturing dependencies from $CONDA_REQUIREMENTS_DEV"
     cat $CONDA_REQUIREMENTS_DEV >> $requirements_file
 fi
-if [ -z "$CONDA_INSTALL_EXTRA" ]; then
-    CONDA_INSTALL_EXTRA=""
+if [ ! -z "$CONDA_INSTALL_EXTRA" ]; then
+    # Use xargs to print one argument per line
+    echo $CONDA_INSTALL_EXTRA | xargs -n 1 >> $requirements_file
 fi
 if [ -f $requirements_file ]; then
     echo "Installing collected dependencies:"
     cat $requirements_file
-    echo $CONDA_INSTALL_EXTRA
-    conda install --quiet --file $requirements_file python=$PYTHON $CONDA_INSTALL_EXTRA
+    conda install --quiet --file $requirements_file python=$PYTHON
 else
-    echo "No requirements files defined."
+    echo "No requirements defined."
 fi
 
 # Make sure that this is the correct Python version. Sometimes conda will try to upgrade
