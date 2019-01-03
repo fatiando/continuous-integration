@@ -15,7 +15,7 @@ BRANCH=gh-pages
 CLONE_DIR=deploy
 CLONE_ARGS="--quiet --branch=$BRANCH --single-branch"
 REPO_URL=https://${GH_TOKEN}@github.com/${REPO}.git
-HTML_SRC=${TRAVIS_BUILD_DIR}/doc/_build/html
+HTML_SRC=${TRAVIS_BUILD_DIR}/${HTML_BUILDDIR:-doc/_build/html}
 # Place the HTML is different folders for different versions
 if [[ "${TRAVIS_TAG}" != "" ]]; then
     VERSION=${TRAVIS_TAG}
