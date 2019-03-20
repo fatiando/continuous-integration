@@ -44,10 +44,8 @@ jobs:
 
   # Setup dependencies and build a conda environment
   # We'll use the local version but you should use the line below instead
-  #- scriptPath: continuous-integration/azure/setup-miniconda.sh
-  - task: ShellScript@2
-    inputs:
-      scriptPath: azure/setup-miniconda.sh
+  #- bash: source continuous-integration/azure/setup-miniconda.sh
+  - bash: source azure/setup-miniconda.sh
     displayName: Setup Miniconda
 
   # Show installed pkg information for postmortem diagnostic
