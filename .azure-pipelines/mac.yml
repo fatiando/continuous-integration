@@ -1,4 +1,4 @@
-# Configuration for Azure Pipelines
+# Configuration for Azure Pipelines MacOS builds
 ########################################################################################
 
 # Only build the master branch, tags, and PRs (on by default) to avoid building random
@@ -12,20 +12,24 @@ trigger:
 
 jobs:
 
-# Mac
-########################################################################################
 - job:
   displayName: 'Mac'
 
   pool:
     vmImage: 'macOS-10.13'
 
+  variables:
+    CONDA_REQUIREMENTS: requirements.txt
+    CONDA_REQUIREMENTS_DEV: requirements-dev.txt
+
   strategy:
     matrix:
       Python37:
         python.version: '3.7'
+        PYTHON: '3.7'
       Python36:
         python.version: '3.6'
+        PYTHON: '3.6'
 
   steps:
 
@@ -45,41 +49,6 @@ jobs:
 
   # Show installed pkg information for postmortem diagnostic
   - bash: conda list
-    displayName: List installed packages
-
-  #- task: PublishTestResults@2
-    #inputs:
-      #testResultsFiles: 'junit/*.xml'
-      #testRunTitle: 'Python $(python.version)'
-    #condition: succeededOrFailed()
-
-
-# Windows
-########################################################################################
-- job:
-  displayName: 'Windows'
-
-  pool:
-    vmImage: 'vs2017-win2016'
-
-  strategy:
-    matrix:
-      Python37:
-        python.version: '3.7'
-      Python36:
-        python.version: '3.6'
-
-  steps:
-
-  - powershell: Write-Host "##vso[task.prependpath]$env:CONDA\Scripts"
-    displayName: Add conda to PATH
-
-  # Get the Fatiando CI scripts (replace "master" with the version you want to use)
-  - script: git clone --branch=master --depth=1 https://github.com/fatiando/continuous-integration.git
-    displayName: Fetch the Fatiando CI scripts
-
-  # Show installed pkg information for postmortem diagnostic
-  - script: conda list
     displayName: List installed packages
 
   #- task: PublishTestResults@2

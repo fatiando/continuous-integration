@@ -1,29 +1,45 @@
+# Configuration for Azure Pipelines Windows builds
+########################################################################################
+
+# Only build the master branch, tags, and PRs (on by default) to avoid building random
+# branches in the repository until a PR is opened.
+trigger:
+  branches:
+    include:
+    - master
+    - refs/tags/*
+
+
 jobs:
+
 - job:
-  displayName: 'vs2017-win2016'
+  displayName: 'Windows'
+
   pool:
     vmImage: 'vs2017-win2016'
+
   strategy:
     matrix:
-      Python27:
-        python.version: '2.7'
+      Python37:
+        python.version: '3.7'
       Python36:
         python.version: '3.6'
 
   steps:
+
   - powershell: Write-Host "##vso[task.prependpath]$env:CONDA\Scripts"
     displayName: Add conda to PATH
 
-  - script: conda create --yes --quiet --name myEnvironment python=%PYTHON_VERSION% numpy pytest
-    displayName: Create Anaconda environment
+  # Get the Fatiando CI scripts (replace "master" with the version you want to use)
+  - script: git clone --branch=master --depth=1 https://github.com/fatiando/continuous-integration.git
+    displayName: Fetch the Fatiando CI scripts
 
-  - script: |
-      activate myEnvironment
-      pytest --junitxml=junit/unit-test.xml
-    displayName: pytest
+  # Show installed pkg information for postmortem diagnostic
+  - script: conda list
+    displayName: List installed packages
 
-  - task: PublishTestResults@2
-    inputs:
-      testResultsFiles: 'junit/*.xml'
-      testRunTitle: 'Python $(python.version)'
-    condition: succeededOrFailed()
+  #- task: PublishTestResults@2
+    #inputs:
+      #testResultsFiles: 'junit/*.xml'
+      #testRunTitle: 'Python $(python.version)'
+    #condition: succeededOrFailed()
