@@ -64,12 +64,12 @@ matrix:
 
 # Setup the build environment
 before_install:
-    # Get the Fatiando CI scripts
-    - git clone https://github.com/fatiando/continuous-integration.git
+    # Get the Fatiando CI scripts (replace "master" with the version you want to use)
+    - git clone --branch=master --depth=1 https://github.com/fatiando/continuous-integration.git
     # Download and install miniconda and setup dependencies
     # Need to source the script to set the PATH variable globaly
     #- source continuous-integration/travis/setup-miniconda.sh
-    # We'll use the local version but you should use the line above
+    # We'll use the local version but you should use the line above instead
     - source travis/setup-miniconda.sh
     # Show installed pkg information for postmortem diagnostic
     - conda list
