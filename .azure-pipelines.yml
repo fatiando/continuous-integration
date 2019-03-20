@@ -1,4 +1,4 @@
-# Configuration for Azure Pipelines MacOS builds
+# Configuration for Azure Pipelines
 ########################################################################################
 
 # Only build the master branch, tags, and PRs (on by default) to avoid building random
