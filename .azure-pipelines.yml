@@ -46,8 +46,8 @@ jobs:
   # Need to source the script to set the PATH variable globaly
   # We'll use the local version but you should use the line below instead
   #- bash: source continuous-integration/azure/setup-miniconda.sh
-  #- bash: source azure/setup-miniconda.sh
-    #displayName: Setup Miniconda
+  - bash: source azure/setup-miniconda.sh
+    displayName: Setup Miniconda
 
   # Show installed pkg information for postmortem diagnostic
   - bash: conda list
