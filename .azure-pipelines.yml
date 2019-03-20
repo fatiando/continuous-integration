@@ -52,8 +52,8 @@ jobs:
 
   # Show installed pkg information for postmortem diagnostic
   - bash: |
-    conda activate testing
-    conda list
+      conda activate testing
+      conda list
     displayName: List installed packages
 
   #- task: PublishTestResults@2
