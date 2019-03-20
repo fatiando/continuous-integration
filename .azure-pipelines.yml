@@ -32,6 +32,8 @@ jobs:
       Python36:
         python.version: '3.6'
         PYTHON: '3.6'
+        CONDA_REQUIREMENTS: ''
+        CONDA_REQUIREMENTS_DEV: ''
 
   steps:
 
@@ -50,15 +52,43 @@ jobs:
 
   # Show installed pkg information for postmortem diagnostic
   - bash: |
-      conda activate testing
+      set -x -e
+      source activate testing
       conda list
     displayName: List installed packages
 
-  #- task: PublishTestResults@2
-    #inputs:
-      #testResultsFiles: 'junit/*.xml'
-      #testRunTitle: 'Python $(python.version)'
-    #condition: succeededOrFailed()
+  # Install the package that we want to test
+  #- bash: |
+      #set -x -e
+      #source activate testing
+      #python setup.py bdist_wheel
+      #pip install dist/*
+    #displayName: Install the package
+
+  # Run the tests
+  #- bash: |
+      #set -x -e
+      #source activate testing
+      #make test
+    #displayName: Test
+
+  # Build the documentation
+  #- bash: |
+      #set -x -e
+      #source activate testing
+      #make -C doc all
+    #displayName: Test
+
+  # Upload test coverage if there were no failures
+  #- bash: |
+      #set -x -e
+      #source activate testing
+      #coverage xml;
+      #echo "Uploading coverage to Codecov";
+      #codecov -e PYTHON;
+    #condition: succeeded()
+    #displayName: Upload coverage
+
 
 # Linux
 ########################################################################################
@@ -70,14 +100,15 @@ jobs:
 
   variables:
     CONDA_REQUIREMENTS: requirements.txt
-    CONDA_REQUIREMENTS_DEV: requirements-dev.txt
 
   strategy:
     matrix:
       Python37:
         python.version: '3.7'
         PYTHON: '3.7'
-      Python36:
+        CONDA_EXTRA_CHANNEL: 'conda-forge/label/dev'
+        CONDA_INSTALL_EXTRA: 'black flake8'
+      python36:
         python.version: '3.6'
         PYTHON: '3.6'
 
@@ -90,6 +121,21 @@ jobs:
   - bash: git clone --branch=master --depth=1 https://github.com/fatiando/continuous-integration.git
     displayName: Fetch the Fatiando CI scripts
 
+  # Setup dependencies and build a conda environment
+  # We'll use the local version but you should use the line below instead
+  #- bash: source continuous-integration/azure/setup-miniconda.sh
+  - bash: source azure/setup-miniconda.sh
+    displayName: Setup Miniconda
+
+  # Show installed pkg information for postmortem diagnostic
+  - bash: |
+      set -x -e
+      source activate testing
+      conda list
+    displayName: List installed packages
+
+  # Other commands are pretty much the same as the Mac job.
+
 
 # Windows
 ########################################################################################
@@ -99,12 +145,18 @@ jobs:
   pool:
     vmImage: 'vs2017-win2016'
 
+  variables:
+    CONDA_REQUIREMENTS: requirements.txt
+    CONDA_INSTALL_EXTRA: 'black flake8'
+
   strategy:
     matrix:
       Python37:
         python.version: '3.7'
+        PYTHON: '3.7'
       Python36:
         python.version: '3.6'
+        PYTHON: '3.6'
 
   steps:
 
@@ -115,12 +167,35 @@ jobs:
   - script: git clone --branch=master --depth=1 https://github.com/fatiando/continuous-integration.git
     displayName: Fetch the Fatiando CI scripts
 
+  # Setup dependencies and build a conda environment
+  # We'll use the local version but you should use the line below instead
+  #- script: azure/setup-miniconda.bat
+  - script: azure/setup-miniconda.bat
+    displayName: Setup Miniconda
+
   # Show installed pkg information for postmortem diagnostic
-  - script: conda list
+  - script: |
+      activate testing
+      conda list
     displayName: List installed packages
 
-  #- task: PublishTestResults@2
-    #inputs:
-      #testResultsFiles: 'junit/*.xml'
-      #testRunTitle: 'Python $(python.version)'
-    #condition: succeededOrFailed()
+  # Install the package that we want to test
+  #- pwsh: |
+      #activate testing
+      #python setup.py sdist --formats=zip
+      #pip install --no-deps (Get-ChildItem dist\*.zip)
+    #displayName: Install the package
+
+  # Run the tests
+  - pwsh: |
+      activate testing
+      mkdir -p tmp; cd tmp; python -c "import numpy; assert True"
+    displayName: Test
+
+  # Upload test coverage if there were no failures
+  #- script: |
+      #activate testing
+      #coverage xml;
+      #codecov -e PYTHON;
+    #condition: succeeded()
+    #displayName: Upload coverage
