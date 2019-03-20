@@ -1,3 +1,17 @@
+# Configuration for Azure Pipelines
+########################################################################################
+
+# Only build the master branch, tags, and PRs (on by default) to avoid building random
+# branches in the repository until a PR is opened.
+trigger:
+  branches:
+    include:
+    - master
+  tags:
+    include:
+    - *
+
+
 jobs:
 
 # Mac
