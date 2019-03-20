@@ -43,14 +43,17 @@ jobs:
     displayName: Fetch the Fatiando CI scripts
 
   # Setup dependencies and build a conda environment
-  # Need to source the script to set the PATH variable globaly
   # We'll use the local version but you should use the line below instead
-  #- bash: source continuous-integration/azure/setup-miniconda.sh
-  - bash: source azure/setup-miniconda.sh
+  #- scriptPath: continuous-integration/azure/setup-miniconda.sh
+  - task: ShellScript@2
+    inputs:
+      scriptPath: azure/setup-miniconda.sh
     displayName: Setup Miniconda
 
   # Show installed pkg information for postmortem diagnostic
-  - bash: conda list
+  - bash: |
+    conda activate testing
+    conda list
     displayName: List installed packages
 
   #- task: PublishTestResults@2
@@ -58,6 +61,36 @@ jobs:
       #testResultsFiles: 'junit/*.xml'
       #testRunTitle: 'Python $(python.version)'
     #condition: succeededOrFailed()
+
+# Linux
+########################################################################################
+- job:
+  displayName: 'Linux'
+
+  pool:
+    vmImage: 'ubuntu-16.04'
+
+  variables:
+    CONDA_REQUIREMENTS: requirements.txt
+    CONDA_REQUIREMENTS_DEV: requirements-dev.txt
+
+  strategy:
+    matrix:
+      Python37:
+        python.version: '3.7'
+        PYTHON: '3.7'
+      Python36:
+        python.version: '3.6'
+        PYTHON: '3.6'
+
+  steps:
+
+  - bash: echo "##vso[task.prependpath]/usr/share/miniconda/bin"
+    displayName: Add conda to PATH
+
+  # Get the Fatiando CI scripts (replace "master" with the version you want to use)
+  - bash: git clone --branch=master --depth=1 https://github.com/fatiando/continuous-integration.git
+    displayName: Fetch the Fatiando CI scripts
 
 
 # Windows
