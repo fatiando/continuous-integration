@@ -1,27 +1,43 @@
 # Scripts for managing Continuous Integration services
 
-Automate the process of installing miniconda and deploying to PyPI and Github Pages.
-
-
-## AppVeyor
-
-AppVeyor can be used to test the build on Windows (both 32 and 64bit). A very nice
-convenience is that it comes with Miniconda already installed in many flavors, so we
-don't need to download it. The first thing to do is go to your profile page on
-https://www.appveyor.com and enable building your repository.
-
-The configuration is setup in an `.appveyor.yml` file. The
-`appveyor/setup-miniconda.bat` script configures and updates conda, creates a new
-environment, and installs dependencies on it. The dependencies are specified in
-`.appveyor.yml` through a variable `CONDA_REQUIREMENTS` that defines a requirements
-file.
-
-There are no deploy actions specified for AppVeyor. We'll use TravisCI to handle
-deploying the docs to Github Pages and builds to PyPI.
-
- See the sample `.appveyor.yml` configuration included in this repository.
+Automate the process of installing miniconda, setting up a build environment, and
+deploying to PyPI and Github Pages from Continuous Integration (CI) services.
 
 [![AppVeyor build status](http://img.shields.io/appveyor/ci/fatiando/continuous-integration/master.svg?style=flat-square&label=AppVeyor)](https://ci.appveyor.com/project/fatiando/continuous-integration)
+[![TravisCI build status](http://img.shields.io/travis/fatiando/continuous-integration/master.svg?style=flat-square&label=TravisCI)](https://travis-ci.org/fatiando/continuous-integration)
+[![Latest release](https://img.shields.io/github/release/fatiando/continuous-integration.svg?style=flat-square)](https://github.com/fatiando/continuous-integration/releases/latest)
+
+## Contents
+
+* [Getting the scripts](#getting-the-scripts)
+* [TravisCI (linux|mac)](#travisci)
+    * [Miniconda](#miniconda)
+    * [Github Pages](#github-pages)
+    * [Deploying to PyPI](#deploying-to-pypi)
+    * [Releasing](#releasing)
+* [AppVeyor (win)](#appveyor)
+
+
+## Getting the scripts
+
+On the CI configuration script, clone a specific release of this repository:
+
+    git clone --branch=VERSION --depth=1 https://github.com/fatiando/continuous-integration.git
+
+Replace `VERSION` with the release you want to use, like `1.0.0`. See the
+[Releases page](https://github.com/fatiando/continuous-integration/releases) for a list
+of versions available and changes made in each.
+
+We use [**semantic versioning**](https://semver.org/) to mark our releases:
+
+* Major version number change (e.g. `1.2.1 -> 2.0.0`): Break in backward compatibility.
+  You will need to update your CI configuration to use this new version.
+* Minor version number change (e.g. `1.2.1 -> 1.3.0`): New features/options added
+  without breaking existing builds. You can update to the new version without changing
+  your configuration.
+* Patch version number change (e.g. `1.2.1 -> 1.2.2`): Fix a bug without breaking
+  existing builds. You can update to the new version without changing your
+  configuration.
 
 
 ## TravisCI
@@ -32,17 +48,6 @@ enable building your repository. New repos can take a while to appear on the
 list.
 
 See the sample `.travis.yml` configuration included in this repository.
-
-[![TravisCI build status](http://img.shields.io/travis/fatiando/continuous-integration/master.svg?style=flat-square&label=TravisCI)](https://travis-ci.org/fatiando/continuous-integration)
-
-
-### Getting the scripts
-
-Clone this repository in the `install` or `before_install` steps in
-`.travis.yml`:
-
-    git clone https://github.com/fatiando/continuous-integration.git
-
 
 ### Miniconda
 
@@ -61,8 +66,7 @@ Include this in the `install` or `before_install` steps in `.travis.yml`:
 It's a good idea to run `conda list` to print out a full list of packages
 installed.
 
-
-### Deploy to Github pages
+### Github Pages
 
 Our strategy is to have the documentation for different versions (marked by git
 tags) in different folder in the `gh-pages` branch. Docs built from *master*
@@ -162,7 +166,6 @@ You must also set the environment variable `DEPLOY_DOCS` to `true` in the build
 that you want to deploy. This is to avoid deploying more than once in case your
 testing using different package versions or OS.
 
-
 ### Deploying to PyPI
 
 Uploading source distributions and wheels to PyPI can happen automatically when
@@ -201,9 +204,27 @@ You must also set the environment variable `DEPLOY_PYPI` to `true` in the build
 that you want to deploy. This is to avoid deploying more than once in case your
 testing using different package versions or OS.
 
-
 ### Releasing
 
 Now you can make a release by simply tagging a commit with a version number.
 TravisCI will create a new folder in the HTML documentation and upload the
 built package to PyPI.
+
+
+## AppVeyor
+
+AppVeyor can be used to test the build on Windows (both 32 and 64bit). A very nice
+convenience is that it comes with Miniconda already installed in many flavors, so we
+don't need to download it. The first thing to do is go to your profile page on
+https://www.appveyor.com and enable building your repository.
+
+The configuration is setup in an `.appveyor.yml` file. The
+`appveyor/setup-miniconda.bat` script configures and updates conda, creates a new
+environment, and installs dependencies on it. The dependencies are specified in
+`.appveyor.yml` through a variable `CONDA_REQUIREMENTS` that defines a requirements
+file.
+
+There are no deploy actions specified for AppVeyor. We'll use TravisCI to handle
+deploying the docs to Github Pages and builds to PyPI.
+
+See the sample `.appveyor.yml` configuration included in this repository.
