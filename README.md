@@ -25,7 +25,19 @@ On the CI configuration script, clone a specific release of this repository:
     git clone --branch=VERSION --depth=1 https://github.com/fatiando/continuous-integration.git
 
 Replace `VERSION` with the release you want to use, like `1.0.0`. See the
-[Releases page](https://github.com/fatiando/continuous-integration/releases).
+[Releases page](https://github.com/fatiando/continuous-integration/releases) for a list
+of versions available and changes made in each.
+
+We use [**semantic versioning**](https://semver.org/) to mark our releases:
+
+* Major version number change (e.g. `1.2.1 -> 2.0.0`): Break in backward compatibility.
+  You will need to update your CI configuration to use this new version.
+* Minor version number change (e.g. `1.2.1 -> 1.3.0`): New features/options added
+  without breaking existing builds. You can update to the new version without changing
+  your configuration.
+* Patch version number change (e.g. `1.2.1 -> 1.2.2`): Fix a bug without breaking
+  existing builds. You can update to the new version without changing your
+  configuration.
 
 
 ## TravisCI
