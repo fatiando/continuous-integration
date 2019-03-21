@@ -5,7 +5,7 @@ deploying to PyPI and Github Pages from Continuous Integration (CI) services.
 
 [![AppVeyor build status](http://img.shields.io/appveyor/ci/fatiando/continuous-integration/master.svg?style=flat-square&label=AppVeyor)](https://ci.appveyor.com/project/fatiando/continuous-integration)
 [![TravisCI build status](http://img.shields.io/travis/fatiando/continuous-integration/master.svg?style=flat-square&label=TravisCI)](https://travis-ci.org/fatiando/continuous-integration)
-[![Azure Pipelines build status](https://img.shields.io/azure-devops/build/fatiando/01ec751a-085e-4c86-9a39-2c8204668b47/4.svg?label=AzurePipelines&style=flat-square)](https://dev.azure.com/fatiando/continuous-integration/_build?definitionId=4)
+[![Azure build status](https://img.shields.io/azure-devops/build/fatiando/01ec751a-085e-4c86-9a39-2c8204668b47/4.svg?label=Azure&style=flat-square)](https://dev.azure.com/fatiando/continuous-integration/_build?definitionId=4)
 [![Latest release](https://img.shields.io/github/release/fatiando/continuous-integration.svg?style=flat-square)](https://github.com/fatiando/continuous-integration/releases/latest)
 
 
