@@ -83,9 +83,14 @@ jobs:
   #- bash: |
       #set -x -e
       #source activate testing
-      #coverage xml;
-      #echo "Uploading coverage to Codecov";
-      #codecov -e PYTHON;
+      #coverage xml
+      #echo "Uploading coverage to Codecov"
+      #codecov -e PYTHON AGENT_OS
+    # Need to set the codecov token for this repository on the Pipelines website. Get
+    # the token from codecov, then go to Edit the pipeline, Variables, and create
+    # "codecov.token" and make it secret (click on the lock icon).
+    #env:
+      #CODECOV_TOKEN: $(codecov.token)
     #condition: succeeded()
     #displayName: Upload coverage
 
@@ -175,12 +180,14 @@ jobs:
 
   # Show installed pkg information for postmortem diagnostic
   - bash: |
+      set -x -e
       source activate testing
       conda list
     displayName: List installed packages
 
   # Install the package that we want to test
   #- bash: |
+      #set -x -e
       #source activate testing
       #python setup.py sdist --formats=zip
       #pip install dist/*
@@ -188,14 +195,18 @@ jobs:
 
   # Run the tests
   - bash: |
+      set -x -e
       source activate testing
       mkdir -p tmp; cd tmp; python -c "import numpy; assert True"
     displayName: Test
 
   # Upload test coverage if there were no failures
   #- bash: |
+      #set -x -e
       #source activate testing
-      #coverage xml;
-      #codecov -e PYTHON;
+      #coverage xml
+      #codecov -e PYTHON AGENT_OS
+    #env:
+      #CODECOV_TOKEN: $(codecov.token)
     #condition: succeeded()
     #displayName: Upload coverage

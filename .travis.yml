@@ -27,6 +27,8 @@ env:
         # These files list the requirements to be installed by conda
         - CONDA_REQUIREMENTS=requirements.txt
         - CONDA_REQUIREMENTS_DEV=requirements-dev.txt
+        # If uploading coverage to codecov
+        #- CONDA_INSTALL_EXTRA="codecov"
         #
         # These variables control which actions are performed in a build
         - COVERAGE=false
@@ -87,7 +89,6 @@ script:
     #- make lint
     # Run the test suite
     #- if [ "$COVERAGE" == "true" ]; then
-          #pip install codecov;
           #make coverage;
       #else
           #make test;
