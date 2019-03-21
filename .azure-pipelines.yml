@@ -1,0 +1,201 @@
+# Configuration for Azure Pipelines
+########################################################################################
+
+# Only build the master branch, tags, and PRs (on by default) to avoid building random
+# branches in the repository until a PR is opened.
+trigger:
+  branches:
+    include:
+    - master
+    - refs/tags/*
+
+
+jobs:
+
+# Mac
+########################################################################################
+- job:
+  displayName: 'Mac'
+
+  pool:
+    vmImage: 'macOS-10.13'
+
+  variables:
+    CONDA_REQUIREMENTS: requirements.txt
+    CONDA_REQUIREMENTS_DEV: requirements-dev.txt
+
+  strategy:
+    matrix:
+      Python37:
+        python.version: '3.7'
+        PYTHON: '3.7'
+      Python36:
+        python.version: '3.6'
+        PYTHON: '3.6'
+        CONDA_REQUIREMENTS: ''
+        CONDA_REQUIREMENTS_DEV: ''
+
+  steps:
+
+  - bash: echo "##vso[task.prependpath]$CONDA/bin"
+    displayName: Add conda to PATH
+
+  # Get the Fatiando CI scripts (replace "master" with the version you want to use)
+  - bash: git clone --branch=master --depth=1 https://github.com/fatiando/continuous-integration.git
+    displayName: Fetch the Fatiando CI scripts
+
+  # Setup dependencies and build a conda environment
+  # We'll use the local version but you should use the line below instead
+  #- bash: source continuous-integration/azure/setup-miniconda.sh
+  - bash: source azure/setup-miniconda.sh
+    displayName: Setup Miniconda
+
+  # Show installed pkg information for postmortem diagnostic
+  - bash: |
+      set -x -e
+      source activate testing
+      conda list
+    displayName: List installed packages
+
+  # Install the package that we want to test
+  #- bash: |
+      #set -x -e
+      #source activate testing
+      #python setup.py bdist_wheel
+      #pip install dist/*
+    #displayName: Install the package
+
+  # Run the tests
+  #- bash: |
+      #set -x -e
+      #source activate testing
+      #make test
+    #displayName: Test
+
+  # Build the documentation
+  #- bash: |
+      #set -x -e
+      #source activate testing
+      #make -C doc all
+    #displayName: Test
+
+  # Upload test coverage if there were no failures
+  #- bash: |
+      #set -x -e
+      #source activate testing
+      #coverage xml;
+      #echo "Uploading coverage to Codecov";
+      #codecov -e PYTHON;
+    #condition: succeeded()
+    #displayName: Upload coverage
+
+
+# Linux
+########################################################################################
+- job:
+  displayName: 'Linux'
+
+  pool:
+    vmImage: 'ubuntu-16.04'
+
+  variables:
+    CONDA_REQUIREMENTS: requirements.txt
+
+  strategy:
+    matrix:
+      Python37:
+        python.version: '3.7'
+        PYTHON: '3.7'
+        CONDA_EXTRA_CHANNEL: 'conda-forge/label/dev'
+        CONDA_INSTALL_EXTRA: 'black flake8'
+      python36:
+        python.version: '3.6'
+        PYTHON: '3.6'
+
+  steps:
+
+  - bash: echo "##vso[task.prependpath]/usr/share/miniconda/bin"
+    displayName: Add conda to PATH
+
+  # Get the Fatiando CI scripts (replace "master" with the version you want to use)
+  - bash: git clone --branch=master --depth=1 https://github.com/fatiando/continuous-integration.git
+    displayName: Fetch the Fatiando CI scripts
+
+  # Setup dependencies and build a conda environment
+  # We'll use the local version but you should use the line below instead
+  #- bash: source continuous-integration/azure/setup-miniconda.sh
+  - bash: source azure/setup-miniconda.sh
+    displayName: Setup Miniconda
+
+  # Show installed pkg information for postmortem diagnostic
+  - bash: |
+      set -x -e
+      source activate testing
+      conda list
+    displayName: List installed packages
+
+  # Other commands are pretty much the same as the Mac job.
+
+
+# Windows
+########################################################################################
+- job:
+  displayName: 'Windows'
+
+  pool:
+    vmImage: 'vs2017-win2016'
+
+  variables:
+    CONDA_REQUIREMENTS: requirements.txt
+    CONDA_INSTALL_EXTRA: 'black flake8'
+
+  strategy:
+    matrix:
+      Python37:
+        python.version: '3.7'
+        PYTHON: '3.7'
+      Python36:
+        python.version: '3.6'
+        PYTHON: '3.6'
+
+  steps:
+
+  - powershell: Write-Host "##vso[task.prependpath]$env:CONDA\Scripts"
+    displayName: Add conda to PATH
+
+  # Get the Fatiando CI scripts (replace "master" with the version you want to use)
+  - script: git clone --branch=master --depth=1 https://github.com/fatiando/continuous-integration.git
+    displayName: Fetch the Fatiando CI scripts
+
+  # Setup dependencies and build a conda environment
+  # We'll use the local version but you should use the line below instead
+  #- script: azure/setup-miniconda.bat
+  - script: azure/setup-miniconda.bat
+    displayName: Setup Miniconda
+
+  # Show installed pkg information for postmortem diagnostic
+  - bash: |
+      source activate testing
+      conda list
+    displayName: List installed packages
+
+  # Install the package that we want to test
+  #- bash: |
+      #source activate testing
+      #python setup.py sdist --formats=zip
+      #pip install dist/*
+    #displayName: Install the package
+
+  # Run the tests
+  - bash: |
+      source activate testing
+      mkdir -p tmp; cd tmp; python -c "import numpy; assert True"
+    displayName: Test
+
+  # Upload test coverage if there were no failures
+  #- bash: |
+      #source activate testing
+      #coverage xml;
+      #codecov -e PYTHON;
+    #condition: succeeded()
+    #displayName: Upload coverage
