@@ -174,8 +174,7 @@ jobs:
     displayName: Setup Miniconda
 
   # Show installed pkg information for postmortem diagnostic
-  - powershell: |
-      ECHO ON
+  - script: |
       call activate testing
       conda list
     displayName: List installed packages
@@ -189,8 +188,7 @@ jobs:
 
   # Run the tests
   - powershell: |
-      ECHO ON
-      call activate testing
+      activate testing
       mkdir -p tmp; cd tmp; python -c "import numpy; assert True"
     displayName: Test
 
