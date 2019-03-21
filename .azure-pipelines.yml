@@ -180,10 +180,10 @@ jobs:
     displayName: List installed packages
 
   # Install the package that we want to test
-  #- powershell: |
-      #activate testing
+  #- bash: |
+      #source activate testing
       #python setup.py sdist --formats=zip
-      #pip install --no-deps (Get-ChildItem dist\*.zip)
+      #pip install dist/*
     #displayName: Install the package
 
   # Run the tests
@@ -193,8 +193,8 @@ jobs:
     displayName: Test
 
   # Upload test coverage if there were no failures
-  #- script: |
-      #activate testing
+  #- bash: |
+      #source activate testing
       #coverage xml;
       #codecov -e PYTHON;
     #condition: succeeded()
