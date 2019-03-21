@@ -5,7 +5,9 @@ deploying to PyPI and Github Pages from Continuous Integration (CI) services.
 
 [![AppVeyor build status](http://img.shields.io/appveyor/ci/fatiando/continuous-integration/master.svg?style=flat-square&label=AppVeyor)](https://ci.appveyor.com/project/fatiando/continuous-integration)
 [![TravisCI build status](http://img.shields.io/travis/fatiando/continuous-integration/master.svg?style=flat-square&label=TravisCI)](https://travis-ci.org/fatiando/continuous-integration)
+[![Azure Pipelines build status](https://img.shields.io/azure-devops/build/fatiando/01ec751a-085e-4c86-9a39-2c8204668b47/4.svg?label=AzurePipelines&style=flat-square)](https://dev.azure.com/fatiando/continuous-integration/_build?definitionId=4)
 [![Latest release](https://img.shields.io/github/release/fatiando/continuous-integration.svg?style=flat-square)](https://github.com/fatiando/continuous-integration/releases/latest)
+
 
 ## Contents
 
@@ -16,6 +18,7 @@ deploying to PyPI and Github Pages from Continuous Integration (CI) services.
     * [Deploying to PyPI](#deploying-to-pypi)
     * [Releasing](#releasing)
 * [AppVeyor (win)](#appveyor)
+* [Azure Pipelines (win|linux|mac)](#azure-pipelines)
 
 
 ## Getting the scripts
@@ -228,3 +231,27 @@ There are no deploy actions specified for AppVeyor. We'll use TravisCI to handle
 deploying the docs to Github Pages and builds to PyPI.
 
 See the sample `.appveyor.yml` configuration included in this repository.
+
+
+## Azure Pipelines
+
+Pipelines is the new CI service by Microsoft Azure. It works on all three platforms and
+is a lot faster than AppVeyor or TravisCI (for Mac). Setup is a bit more complicated and
+requires setting up a few layers if you've never used Azure before. You'll also need a
+Microsoft account (free).
+
+We provide a sample configuration file in `.azure-pipelines.yml` that sets up up jobs
+for all three platforms.
+After you've setup a branch with the configuration files in your repository:
+
+1. Go to https://dev.azure.com
+2. Create an organization (if you haven't already). Fatiando projects are in the
+   `fatiando` organization. Open an issue here to request access.
+3. Create a project for your repository in the organization. Use the repository name as
+   the project name.
+4. Create a new pipeline in your project and select the configuration file in your new
+   branch.
+5. Run the pipeline
+
+After this, the pipelines should start automatically with new updates to PRs and the
+master branch.
