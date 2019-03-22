@@ -38,7 +38,6 @@ conda config --prepend channels conda-forge
 if [[ ! -z $CONDA_EXTRA_CHANNEL ]]; then
     conda config --append channels $CONDA_EXTRA_CHANNEL
 fi
-conda config --set channel_priority strict
 conda config --set show_channel_urls True
 
 # Display all configuration options for diagnosis

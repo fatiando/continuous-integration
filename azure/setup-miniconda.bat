@@ -21,7 +21,6 @@ IF DEFINED CONDA_EXTRA_CHANNEL (
 ) ELSE (
     ECHO Not setting extra channels
 )
-conda config --set channel_priority strict
 conda config --set show_channel_urls True
 
 REM Display all configuration options for diagnosis
