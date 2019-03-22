@@ -15,13 +15,13 @@ conda config --set always_yes yes --set changeps1 no
 
 REM Add conda-forge to the top of the channel list
 conda config --prepend channels conda-forge
-conda config --remove channels defaults
 REM Add an extra channel that may be required
 IF DEFINED CONDA_EXTRA_CHANNEL (
     conda config --append channels %CONDA_EXTRA_CHANNEL%
 ) ELSE (
     ECHO Not setting extra channels
 )
+conda config --set show_channel_urls True
 
 REM Display all configuration options for diagnosis
 conda config --show
