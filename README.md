@@ -3,7 +3,6 @@
 Automate the process of installing miniconda, setting up a build environment, and
 deploying to PyPI and Github Pages from Continuous Integration (CI) services.
 
-[![AppVeyor build status](http://img.shields.io/appveyor/ci/fatiando/continuous-integration/master.svg?style=flat-square&label=AppVeyor)](https://ci.appveyor.com/project/fatiando/continuous-integration)
 [![TravisCI build status](http://img.shields.io/travis/fatiando/continuous-integration/master.svg?style=flat-square&label=TravisCI)](https://travis-ci.org/fatiando/continuous-integration)
 [![Azure build status](https://img.shields.io/azure-devops/build/fatiando/01ec751a-085e-4c86-9a39-2c8204668b47/4/master.svg?label=Azure&style=flat-square)](https://dev.azure.com/fatiando/continuous-integration/_build?definitionId=4)
 [![Latest release](https://img.shields.io/github/release/fatiando/continuous-integration.svg?style=flat-square)](https://github.com/fatiando/continuous-integration/releases/latest)
@@ -17,7 +16,6 @@ deploying to PyPI and Github Pages from Continuous Integration (CI) services.
     * [Github Pages](#github-pages)
     * [Deploying to PyPI](#deploying-to-pypi)
     * [Releasing](#releasing)
-* [AppVeyor (win)](#appveyor)
 * [Azure Pipelines (win|linux|mac)](#azure-pipelines)
 
 
@@ -212,26 +210,6 @@ testing using different package versions or OS.
 Now you can make a release by simply tagging a commit with a version number.
 TravisCI will create a new folder in the HTML documentation and upload the
 built package to PyPI.
-
-
-## AppVeyor
-
-AppVeyor can be used to test the build on Windows (both 32 and 64bit). A very nice
-convenience is that it comes with Miniconda already installed in many flavors, so we
-don't need to download it. The first thing to do is go to your profile page on
-https://www.appveyor.com and enable building your repository.
-
-The configuration is setup in an `.appveyor.yml` file. The
-`appveyor/setup-miniconda.bat` script configures and updates conda, creates a new
-environment, and installs dependencies on it. The dependencies are specified in
-`.appveyor.yml` through a variable `CONDA_REQUIREMENTS` that defines a requirements
-file.
-
-There are no deploy actions specified for AppVeyor. We'll use TravisCI to handle
-deploying the docs to Github Pages and builds to PyPI.
-
-See the sample `.appveyor.yml` configuration included in this repository.
-
 
 ## Azure Pipelines
 
