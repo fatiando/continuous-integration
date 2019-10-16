@@ -43,12 +43,6 @@ conda config --set show_channel_urls True
 # Display all configuration options for diagnosis
 conda config --show
 
-# Update conda to the latest version
-echo ""
-echo "Updating conda"
-echo "========================================================================"
-conda update --quiet conda
-
 # Create and activate an environment for testing
 echo ""
 echo "Creating the 'testing' environment with python=$PYTHON"
