@@ -52,17 +52,6 @@ matrix:
               - DEPLOY_PYPI=true
               # List extra dependencies that need to be installed in this build
               - CONDA_INSTALL_EXTRA="black flake8"
-        - os: osx
-          env:
-              - PYTHON=3.5
-              # Test to see if the install step is skipped if this is empty
-              - CONDA_REQUIREMENTS=""
-              - CONDA_REQUIREMENTS_DEV=""
-        - os: osx
-          env:
-              - PYTHON=3.6
-              - COVERAGE=true
-              - BUILD_DOCS=true
 
 # Setup the build environment
 before_install:
