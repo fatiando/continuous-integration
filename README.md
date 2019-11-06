@@ -85,14 +85,19 @@ You must first create an orphan `gh-pages` branch in your repository (skip this
 step if it already exists). :
 
     git checkout --orphan gh-pages
+    git rm -rf --cached .
 
 Now create an `index.html` file that will redirect to the content of `latest`:
 
     echo "<meta http-equiv=\"Refresh\" content=\"0;url=latest/\"/>" > index.html
 
+We need to tell GitHub to not try to build this as a Jekyll site:
+
+    touch .nojekyll
+    
 Commit this to `gh-pages`:
 
-    git add index.html
+    git add index.html .nojekyll
     git commit -m "Setup index.html to redirect to 'latest'"
 
 If you want to initially point `latest` to the `dev` build, for example if you haven't
