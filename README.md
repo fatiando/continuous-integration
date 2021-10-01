@@ -1,3 +1,8 @@
+# NOTICE
+
+**THIS REPOSITORY IS READ-ONLY** and is no longer actively maintained. 
+We have since moved to GitHub Actions, which makes most of these scripts redundant. 
+
 # Scripts for managing Continuous Integration services
 
 Automate the process of installing miniconda, setting up a build environment, and
